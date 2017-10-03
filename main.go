@@ -22,11 +22,25 @@ func main()  {
 			continue
 		}
 
-		log.Printf("[%s]%s", update.Message.From.FirstName,update.Message.Text)
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
-		msg.ReplyToMessageID = update.Message.MessageID
+		log.Printf("[%s]%s", update.Message.From.FirstName,update.Message.Command())
 
-		bot.Send(msg)
+
+		if update.Message.Command() == "go"{
+			var msgstr string
+			for _, movie := range getMovies() {
+				msgstr += movie.name + ":   " + movie.rating +"\n"
+
+			}
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, msgstr)
+			msg.ReplyToMessageID = update.Message.MessageID
+			bot.Send(msg)
+		}
+		if update.Message.Command() == "help"{
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Помоги себе сам")
+			msg.ReplyToMessageID = update.Message.MessageID
+			bot.Send(msg)
+		}
+		//bot.Send(msg)
 	}
 
 }
