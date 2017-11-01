@@ -1,0 +1,34 @@
+{
+	"ImportPath": "github.com/makeyousmile/moviemog_bot",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/PuerkitoBio/goquery",
+			"Comment": "v1.1.0-9-g63e7f87",
+			"Rev": "63e7f870c2298e42bfc8b200db92e175a3e71120"
+		},
+		{
+			"ImportPath": "github.com/Syfaro/telegram-bot-api",
+			"Comment": "v4.6-54-g9dda67c",
+			"Rev": "9dda67c714e5e2cba837b28a0172cca2ed54f078"
+		},
+		{
+			"ImportPath": "github.com/andybalholm/cascadia",
+			"Rev": "349dd0209470eabd9514242c688c403c0926d266"
+		},
+		{
+			"ImportPath": "github.com/technoweenie/multipartstreamer",
+			"Comment": "v1.0.1",
+			"Rev": "a90a01d73ae432e2611d178c18367fbaa13e0154"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html",
+			"Rev": "0a9397675ba34b2845f758fe3cd68828369c6517"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html/atom",
+			"Rev": "0a9397675ba34b2845f758fe3cd68828369c6517"
+		}
+	]
+}
