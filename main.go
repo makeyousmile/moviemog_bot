@@ -5,7 +5,7 @@ import (
 	"log"
 	"encoding/json"
 	"os"
-)
+	)
 
 type Config struct {
 	TelegramBotToken string
