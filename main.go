@@ -3,15 +3,29 @@ package main
 import (
 	"github.com/Syfaro/telegram-bot-api"
 	"log"
+	"encoding/json"
+	"os"
 )
 
+type Config struct {
+	TelegramBotToken string
+}
+
 func main()  {
-	bot, err := tgbotapi.NewBotAPI("437757616:AAErig4Hb9ZZoVhS5CnTUPaI4DbsCLl5Q3E")
+	//token := json.Decoder{os.Open("config.json")}
+	file, _ := os.Open("config.json")
+	decoder := json.NewDecoder(file)
+	cfg := Config{}
+	err := decoder.Decode(&cfg)
+	if err !=nil {
+		log.Fatal(err)
+	}
+	bot, err := tgbotapi.NewBotAPI(cfg.TelegramBotToken)
 	if err != nil{
 		log.Fatal(err)
 	}
 
-	bot.Debug = true
+	bot.Debug = false
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 	var ucfg tgbotapi.UpdateConfig = tgbotapi.NewUpdate(0)
 	ucfg.Timeout = 60
@@ -26,12 +40,12 @@ func main()  {
 
 
 		if update.Message.Command() == "go"{
-			var msgstr string
-			for _, movie := range getMovies() {
-				msgstr += movie.name + ":   " + movie.rating +"\n"
+			var msgtext string
+			for _, movie := range *getMovies() {
+				msgtext += movie.name + ":   " + movie.rating +"\n"
 
 			}
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, msgstr)
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, msgtext)
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
 		}

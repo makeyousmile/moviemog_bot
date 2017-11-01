@@ -12,7 +12,7 @@ type movie struct {
 	price string
 }
 
-func getMovies()  []movie{
+func getMovies()  *[]movie{
 
 	movies := make([]movie,0)
 
@@ -45,5 +45,5 @@ func getMovies()  []movie{
 
 	})
 
-	return movies
+	return &movies
 }
