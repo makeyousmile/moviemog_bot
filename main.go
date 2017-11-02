@@ -35,6 +35,8 @@ func main()  {
 		if update.Message == nil{
 			continue
 		}
+		typing := tgbotapi.NewChatAction(update.Message.Chat.ID, "typing")
+		bot.Send(typing)
 
 		log.Printf("[%s]%s", update.Message.From.FirstName,update.Message.Command())
 
