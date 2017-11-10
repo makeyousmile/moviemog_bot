@@ -37,18 +37,24 @@ func main()  {
 		}
 		typing := tgbotapi.NewChatAction(update.Message.Chat.ID, "typing")
 		bot.Send(typing)
-
-		log.Printf("[%s]%s", update.Message.From.FirstName,update.Message.Command())
-
-
 		if update.Message.Command() == "go"{
 			var msgtext string
 			for _, movie := range *getMovies() {
-				msgtext += movie.name + ":   " + movie.rating +"\n"
+				rating := movie.kinopoiskRating
+				if rating == "0"{
+					rating = "Мало голосов"
+				}
+				msgtext += movie.name + ":   <b>" +rating +"</b>\n"
 
 			}
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, msgtext)
+			msg.ParseMode = "HTML"
 			msg.ReplyToMessageID = update.Message.MessageID
+			bot.Send(msg)
+		}
+		if update.Message.Command() == "start" {
+			msgtxt := "Привет. Отправь мнне команду /go и получи список фильмов в прокате города Могилева. "
+			msg :=tgbotapi.NewMessage(update.Message.Chat.ID,msgtxt)
 			bot.Send(msg)
 		}
 		if update.Message.Command() == "help"{

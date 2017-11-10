@@ -3,11 +3,13 @@ package main
 import (
 	"github.com/PuerkitoBio/goquery"
 	"log"
+	"fmt"
 )
 
 type movie struct {
 	name string
 	rating string
+	kinopoiskRating string
 	time string
 	price string
 }
@@ -31,6 +33,7 @@ func getMovies()  *[]movie{
 				val, exist := selection.Attr("itemprop")
 				if exist && val == "summary"{
 					m.name = selection.Text()
+					m.kinopoiskRating = fmt.Sprint(getRating(m.name))
 					m.rating = selection.Parent().Parent().Find("span.raiting").Text()
 					movies = append(movies, m)
 				}
