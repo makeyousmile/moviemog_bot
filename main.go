@@ -53,7 +53,7 @@ func main()  {
 			bot.Send(msg)
 		}
 		if update.Message.Command() == "start" {
-			msgtxt := "Привет. Отправь мнне команду /go и получи список фильмов в прокате города Могилева. "
+			msgtxt := "Привет. Отправь мне команду /go и получи список фильмов в прокате города Могилева. "
 			msg :=tgbotapi.NewMessage(update.Message.Chat.ID,msgtxt)
 			bot.Send(msg)
 		}
