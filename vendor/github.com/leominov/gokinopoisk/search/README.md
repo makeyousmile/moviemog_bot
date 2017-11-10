@@ -1,0 +1,3 @@
+# Search
+
+See `examples` folder.
