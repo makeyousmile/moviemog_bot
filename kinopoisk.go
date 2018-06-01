@@ -5,21 +5,26 @@ import (
 	"log"
 )
 
-func getRating(movieTittle string) float32 {
-	var rating float32
-	res, err := search.Query(movieTittle)
-	if err != nil {
-		log.Panic(err)
-	}
-	//Выбор нужного фильма (более новый)
-	maxYear := 0
-	rating = 0
-	for _, film := range res.Films {
-		if film.Years[0] >  maxYear{
-			rating = film.Rating.Rate
-			maxYear = film.Years[0]
+func getMoviesData(movieTittles []string) *[]search.Film {
+
+	movies := make([]search.Film,0)
+	log.Print(movieTittles)
+ 	for _, movieTittle := range movieTittles{
+		res, err := search.Query(movieTittle)
+		if err != nil { log.Panic(err) }
+
+		//Выбор нужного фильма (более новый)
+		for _, film := range res.Films {
+
+			if len(film.Years) > 0{
+				if film.Years[0] > 2015{
+
+					movies = append(movies, film)
+				}
+
+			}
 		}
 	}
 
-return rating
+return &movies
 }

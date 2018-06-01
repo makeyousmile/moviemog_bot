@@ -3,50 +3,31 @@ package main
 import (
 	"github.com/PuerkitoBio/goquery"
 	"log"
-	"fmt"
-)
+	)
 
-type movie struct {
-	name string
-	rating string
-	kinopoiskRating string
-	time string
-	price string
+func reverse(ss []string) {
+	last := len(ss) - 1
+	for i := 0; i < len(ss)/2; i++ {
+		ss[i], ss[last-i] = ss[last-i], ss[i]
+	}
 }
 
-func getMovies()  *[]movie{
+func getMovies()  *[]string{
 
-	movies := make([]movie,0)
+	movies := make([]string,0)
 
 	doc, err := goquery.NewDocument("https://afisha.tut.by/film-mogilev/")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	doc.Find("li.lists__li").Each(func(i int, selection *goquery.Selection) {
-		var m movie
 
-		val, exist := selection.Attr("itemtype")
-		if exist && val == "http://data-vocabulary.org/Event"{
+	selection := doc.Find("div#events-block").First()
+		selection.Find("a.name").Each(func(i int, selection *goquery.Selection) {
+			movies = append(movies, selection.Text())
+		})
 
-			selection.Find("span").Each(func(n int, selection *goquery.Selection) {
-				val, exist := selection.Attr("itemprop")
-				if exist && val == "summary"{
-					m.name = selection.Text()
-					m.kinopoiskRating = fmt.Sprint(getRating(m.name))
-					m.rating = selection.Parent().Parent().Find("span.raiting").Text()
-					movies = append(movies, m)
-				}
-			})
-
-			//selection.Find("a.media span").Each(func(count int, selection *goquery.Selection) {
-			//	log.Print(selection.Html())
-			//	log.Print(count)
-			//})
-		}
-
-
-	})
+	reverse(movies)
 
 	return &movies
 }

@@ -5,11 +5,13 @@ import (
 	"log"
 	"encoding/json"
 	"os"
-	)
+	"fmt"
+)
 
 type Config struct {
 	TelegramBotToken string
 }
+
 
 func main()  {
 	//token := json.Decoder{os.Open("config.json")}
@@ -39,12 +41,14 @@ func main()  {
 		bot.Send(typing)
 		if update.Message.Command() == "go"{
 			var msgtext string
-			for _, movie := range *getMovies() {
-				rating := movie.kinopoiskRating
+			movies := getMoviesData(*getMovies())
+			for _, movie := range *movies {
+				rating := fmt.Sprint(movie.Rating.Rate)
 				if rating == "0"{
-					rating = "Мало голосов"
+					rating = ""
 				}
-				msgtext += movie.name + ":   <b>" +rating +"</b>\n"
+
+				msgtext +="<a href='"+ movie.URL+ "'>" + movie.Title + "</a>   <b>" +rating +"</b>\n"
 
 			}
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, msgtext)
