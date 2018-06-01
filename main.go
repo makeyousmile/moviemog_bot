@@ -29,7 +29,7 @@ func main()  {
 
 	bot.Debug = false
 	log.Printf("Authorized on account %s", bot.Self.UserName)
-	var ucfg tgbotapi.UpdateConfig = tgbotapi.NewUpdate(0)
+	ucfg  := tgbotapi.NewUpdate(0)
 	ucfg.Timeout = 60
 	updates, err := bot.GetUpdatesChan(ucfg)
 
@@ -41,7 +41,8 @@ func main()  {
 		bot.Send(typing)
 		if update.Message.Command() == "go"{
 			var msgtext string
-			movies := getMoviesData(*getMovies())
+			movies := getMovies()
+			getMoviesData(*movies)
 			for _, movie := range *movies {
 				rating := fmt.Sprint(movie.Rating.Rate)
 				if rating == "0"{
