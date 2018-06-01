@@ -16,7 +16,7 @@ func getMoviesData(movieTittles []string) *[]search.Film {
 		//Выбор нужного фильма (более новый)
 		for _, film := range res.Films {
 
-			if len(film.Years) > 0{
+			if len(film.Years) > 0 && film.Type == "MOVIE" {
 				if film.Years[0] > 2015{
 
 					movies = append(movies, film)
