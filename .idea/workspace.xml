@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="608a1b22-eb3d-4a4d-81ac-ff1955ba645d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kinopoisk.go" beforeDir="false" afterPath="$PROJECT_DIR$/kinopoisk.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +16,8 @@
       <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="80" column="102" selection-start-line="80" selection-start-column="102" selection-end-line="80" selection-end-column="102" />
+            <state relative-caret-position="391">
+              <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
             </state>
           </provider>
         </entry>
@@ -98,7 +95,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-279" />
     <option name="y" value="2" />
     <option name="width" value="1684" />
@@ -200,11 +197,11 @@
     <layout>
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.25416666" />
       <window_info anchor="bottom" id="TODO" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.10364583" side_tool="true" visible="true" weight="0.44456178" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="1" sideWeight="0.10364583" side_tool="true" visible="true" weight="0.44456178" />
       <window_info anchor="right" id="Database" order="0" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="2" sideWeight="0.49507388" weight="0.3295063" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" sideWeight="0.89635414" visible="true" weight="0.44456178" />
+      <window_info anchor="bottom" id="Run" order="6" sideWeight="0.89635414" visible="true" weight="0.44456178" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.45263788" weight="0.43947655" />
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -232,7 +229,8 @@
     <MESSAGE value="add procfile" />
     <MESSAGE value="add typing ChatAction" />
     <MESSAGE value="add /start comand&#10;add rating from kinopoisk" />
-    <option name="LAST_COMMIT_MESSAGE" value="add /start comand&#10;add rating from kinopoisk" />
+    <MESSAGE value="rework and add new ficha" />
+    <option name="LAST_COMMIT_MESSAGE" value="rework and add new ficha" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/parser.go">
@@ -499,13 +497,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/github.com/leominov/gokinopoisk/search/search.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="239">
@@ -533,10 +524,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="80" column="102" selection-start-line="80" selection-start-column="102" selection-end-line="80" selection-end-column="102" />
+        <state relative-caret-position="391">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>
