@@ -2,52 +2,71 @@ package main
 
 import (
 	"github.com/PuerkitoBio/goquery"
+	"github.com/leominov/gokinopoisk/search"
 	"log"
-	"fmt"
+	"strings"
 )
 
-type movie struct {
-	name string
-	rating string
-	kinopoiskRating string
-	time string
-	price string
-}
+func getMovies() *[]search.Film {
 
-func getMovies()  *[]movie{
-
-	movies := make([]movie,0)
+	movies := make([]search.Film, 0)
 
 	doc, err := goquery.NewDocument("https://afisha.tut.by/film-mogilev/")
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 
-	doc.Find("li.lists__li").Each(func(i int, selection *goquery.Selection) {
-		var m movie
-		log.Print(selection.Html())
-
-		val, exist := selection.Attr("itemtype")
-		if exist && val == "http://data-vocabulary.org/Event"{
-
-			selection.Find("span").Each(func(n int, selection *goquery.Selection) {
-				val, exist := selection.Attr("itemprop")
-				if exist && val == "summary"{
-					m.name = selection.Text()
-					m.kinopoiskRating = fmt.Sprint(getRating(m.name))
-					m.rating = selection.Parent().Parent().Find("span.raiting").Text()
-					movies = append(movies, m)
-				}
-			})
-
-			//selection.Find("a.media span").Each(func(count int, selection *goquery.Selection) {
-			//	log.Print(selection.Html())
-			//	log.Print(count)
-			//})
+	selection := doc.Find("div#events-block").First()
+	selection.Find("a.name").Each(func(i int, selection *goquery.Selection) {
+		var movie search.Film
+		movie.Title = selection.Text()
+		val, exist := selection.Attr("href")
+		if exist {
+			movie.URL = val
 		}
-
-
+		movies = append(movies, movie)
 	})
 
 	return &movies
+}
+func parseMoviePage(movies []search.Film) [100]FullMoviesInfo {
+	var fullInfo [100]FullMoviesInfo
+
+	for i, movie := range movies {
+		fullInfo[i].Film = movie
+		fullInfo[i].theaters = make(map[string]string, 6)
+		doc, err := goquery.NewDocument(movie.URL)
+
+		if err != nil {
+			log.Panic(err)
+		}
+		imbdRate := doc.Find("td.IMDb").Find("b").First().Text()
+
+		fullInfo[i].imbdRate = imbdRate
+
+		selection := doc.Find("div.b-film-info").First()
+		selection.Find("li.b-film-list__li").Each(func(_ int, selection *goquery.Selection) {
+			theater := strings.TrimSpace(selection.Find("div.film-name").Text())
+			selection.Find("a.tooltip-holder").Each(func(_ int, selection *goquery.Selection) {
+				hour, exist := selection.Parent().Attr("data-hour")
+				if exist {
+
+					fullInfo[i].theaters[theater] += " "+ hour +":"
+				}
+				minute, exist := selection.Parent().Attr("data-minute")
+				if exist {
+					if minute == "0"{
+						minute = "00"
+					}
+					fullInfo[i].theaters[theater] += minute
+				}
+			})
+
+
+		})
+
+
+	}
+
+	return fullInfo
 }

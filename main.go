@@ -1,50 +1,84 @@
 package main
 
 import (
-	"github.com/Syfaro/telegram-bot-api"
-	"log"
 	"encoding/json"
+	"fmt"
+	"github.com/Syfaro/telegram-bot-api"
+	"github.com/leominov/gokinopoisk/search"
+	"log"
 	"os"
-	)
+)
 
 type Config struct {
 	TelegramBotToken string
 }
 
-func main()  {
-	//token := json.Decoder{os.Open("config.json")}
+type FullMoviesInfo struct {
+	search.Film
+	theaters map[string]string
+	imbdRate string
+}
+
+var theatres  = []string{
+	"Космос",
+	"Родина",
+	"Октябрь",
+	"Ветразь",
+	"Чырвоная Зорка",
+
+}
+
+func main() {
+	//open config file and read data to Config struct var
 	file, _ := os.Open("config.json")
 	decoder := json.NewDecoder(file)
 	cfg := Config{}
 	err := decoder.Decode(&cfg)
-	if err !=nil {
+	if err != nil {
 		log.Fatal(err)
 	}
+	//start new Telegram Bot with API token from Config struct var
 	bot, err := tgbotapi.NewBotAPI(cfg.TelegramBotToken)
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
 
 	bot.Debug = false
 	log.Printf("Authorized on account %s", bot.Self.UserName)
-	var ucfg tgbotapi.UpdateConfig = tgbotapi.NewUpdate(0)
+	ucfg := tgbotapi.NewUpdate(0)
 	ucfg.Timeout = 60
 	updates, err := bot.GetUpdatesChan(ucfg)
 
-	for update := range updates{
-		if update.Message == nil{
+	for update := range updates {
+		if update.Message == nil {
 			continue
 		}
 		typing := tgbotapi.NewChatAction(update.Message.Chat.ID, "typing")
 		bot.Send(typing)
-		if update.Message.Command() == "go"{
+		if update.Message.Command() == "go" {
 			var msgtext string
-			for _, movie := range *getMovies() {
-				rating := movie.kinopoiskRating
-				if rating == "0"{
-					rating = "Мало голосов"
+			movies := getMovies()
+			getMoviesData(*movies)
+			fullInfo := parseMoviePage(*movies)
+
+
+
+			for _, movie := range fullInfo {
+				rating := fmt.Sprint(movie.Rating.Rate)
+				if rating == "0" {
+					rating = movie.imbdRate
 				}
-				msgtext += movie.name + ":   <b>" +rating +"</b>\n"
+				msgtextPart := ""
+				for _, theatre := range theatres{
+					data, exist := movie.theaters[theatre]
+					if exist{
+						msgtextPart += theatre + data + ", "
+
+
+					}
+				}
+
+				msgtext += "<a href='" + movie.URL + "'>" + movie.Title + "</a>  <b>" + rating + "</b>\n <code>   "+ msgtextPart + "</code>\n"
 
 			}
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, msgtext)
@@ -54,10 +88,10 @@ func main()  {
 		}
 		if update.Message.Command() == "start" {
 			msgtxt := "Привет. Отправь мне команду /go и получи список фильмов в прокате города Могилева. "
-			msg :=tgbotapi.NewMessage(update.Message.Chat.ID,msgtxt)
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, msgtxt)
 			bot.Send(msg)
 		}
-		if update.Message.Command() == "help"{
+		if update.Message.Command() == "help" {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Помоги себе сам")
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
