@@ -25,6 +25,7 @@ func getMovies()  *[]movie{
 
 	doc.Find("li.lists__li").Each(func(i int, selection *goquery.Selection) {
 		var m movie
+		log.Print(selection.Html())
 
 		val, exist := selection.Attr("itemtype")
 		if exist && val == "http://data-vocabulary.org/Event"{
