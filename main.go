@@ -13,12 +13,6 @@ type Config struct {
 	TelegramBotToken string
 }
 
-type FullMoviesInfo struct {
-	search.Film
-	theaters map[string]string
-	imbdRate string
-}
-
 var theatres  = []string{
 	"Космос",
 	"Родина",
@@ -26,6 +20,13 @@ var theatres  = []string{
 	"Ветразь",
 	"Чырвоная Зорка",
 
+}
+
+
+type FullMoviesInfo struct {
+	search.Film
+	theaters map[string]string
+	imbdRate string
 }
 
 func main() {
